@@ -2,12 +2,11 @@
 <br/>
 
 <h2>DESCRIPTION</h2>
-<p>
-    O url shortener é apenas mais um projeto a nivel de estudo.<br/>
 
-    Este projeto consiste em apentas encurtar a url que for inserida.
-<code>
-    URL ORIGINAL: http://www.example.com.br<br/>
-    URL SHORTENER: http://localhost:3000/r/ADqF
-</code>
-</p>
+<p>O url shortener é apenas mais um projeto a nivel de estudo.<br/>
+Este projeto consiste em apentas encurtar a url que for inserida.</p>
+
+<h2>EXAMPLE</h2>
+
+<code>URL ORIGINAL: http://www.example.com.br<code/>
+<code>URL SHORTENER: http://localhost:3000/r/ADqF</code>
