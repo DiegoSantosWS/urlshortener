@@ -9,4 +9,5 @@ Este projeto consiste em apentas encurtar a url que for inserida.</p>
 <h2>EXAMPLE</h2>
 
 <code>URL ORIGINAL: http://www.example.com.br<code/>
+<br/>
 <code>URL SHORTENER: http://localhost:3000/r/ADqF</code>

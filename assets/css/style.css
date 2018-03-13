@@ -1,0 +1,44 @@
+body, html {
+    height: 100%;
+}
+.bg { 
+    /* The image used */
+    /*background-image: url("wsite3.jpg");*/
+    /* Full height */
+    height: 100%; 
+    /*background: rgba(154, 12, 12, .8);*/
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1 {
+    color: black;
+}
+/*table.bordasimples {border-collapse: collapse;}
+
+table.bordasimples tr th td {
+    width: 100%;
+    border:10px solid #d41919;
+}
+*/
+td, th {
+    color: blue;
+    font-size: 12px;
+}
+
+#showresults {
+    position: relative;
+    overflow: auto;
+    height: 380px;
+}
+
+#logo{
+    width:100%;
+    display:inline-block;
+}
+#logo img{
+    width:100%;
+    max-width:400px;
+}
