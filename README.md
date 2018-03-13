@@ -7,7 +7,7 @@
 
     Este projeto consiste em apentas encurtar a url que for inserida.
 <code>
-    URL ORIGINAL: http://www.example.com.br
+    URL ORIGINAL: http://www.example.com.br<br/>
     URL SHORTENER: http://localhost:3000/r/ADqF
 </code>
 </p>
