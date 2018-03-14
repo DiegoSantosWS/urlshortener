@@ -16,6 +16,7 @@ func Routers() {
 	r.HandleFunc("/encurt-url", models.Shorten)
 	r.HandleFunc("/r/{token}", models.Redirection)
 	r.HandleFunc("/list", models.ListResults)
+	r.HandleFunc("/analytics-wd/{id}", models.AnalyticsResults)
 	r.HandleFunc("/info/{id}", models.Info)
 
 	http.ListenAndServe(":3000", r)

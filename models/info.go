@@ -26,7 +26,7 @@ func Info(w http.ResponseWriter, r *http.Request) {
 	tock := mux.Vars(r)
 	valor := tock["id"]
 
-	sql := "SELECT l.url, l.ip, referencia, browser, DATE_FORMAT(l.data, '%d/%m/%Y %H:%i:%s') AS data, COUNT(l.id) as contador FROM logquery as l WHERE l.token = ? GROUP BY l.id "
+	sql := "SELECT l.url, l.ip, referencia, browser, DATE_FORMAT(l.data, '%d/%m/%Y %H:%i:%s') AS data, COUNT(l.id) as contador FROM logquery as l WHERE l.token = ? GROUP BY l.id ORDER BY l.id DESC"
 	rows, err := cone.Db.Queryx(sql, valor)
 	if err != nil {
 		fmt.Println("Erro ao buscar informações de acesso. ERROR", sql, " - ", err.Error())

@@ -1,10 +1,15 @@
 $(document).ready(function(){
-    //alert("teste")
     showresults();
+    viewIformation($("#tokenAnalytcis").val())
 });
 
+function analytics(id) {
+    setTimeout(function(){
+        window.location.href = "/analytics-wd/"+id;
+    }, 100);
+}
+
 function showresults() {
-    $("#showresults").hide(100)
     //Carrega Lista de conteudos cadastrados
     $.ajax({
         url: "/list",
@@ -30,19 +35,41 @@ function showresults() {
                     html += "</td>";
                     html += "<td>"+item.total+"</td>";
                     html += "<td>";
-                    html += '<a class="btn btn-warning" href="http://localhost:3000/info/'+item.token+'" title="Views Information of access url"><i class="fa fa-eye fa-2 text-primary" aria-hidden="true"></i></a>';
+                    html += "<button type='button' onclick=\'analytics(\""+item.token+"\")\' class='btn btn-warning' title='Views Information of access url'>";
+                    html += "<i class='fa fa-eye fa-2 text-primary' aria-hidden='true'></i>";
+                    html += "</button>";
+                    //html += '<a class="" onclick=\"viewIformation(\''+item.token+'\')\" href="#"><i class="fa fa-eye fa-2 text-primary" aria-hidden="true"></i></a>';
                     html += "</td>";
                     html += "</tr>"; 
                 })
-                $("#showresults").show(100)
                 $("#viwsResults").html(html)    
             },10);
         }
     });
 }
 
-function viewIformation(token) {
-    alert(token)
+function viewIformation(teste) {
+    $.ajax({
+        url: "/info/"+teste,
+        type:"jsonp",
+        crossDomain: true,
+        success:function(data) {
+            var html = "";
+            setTimeout(function() {
+                jQuery.each(data, function(i, item){
+                    
+                    html += "<tr>";
+                    
+                    html += "<td>"+item.referencia.String+"</td>";
+                    html += "<td>"+item.contador+"</td>";
+                    html += "<td>"+item.browser.String+"</td>"
+                    html += "<td>"+item.data+"</td>";
+                    html += "</tr>"; 
+                })
+                $("#viwsResultsAnalytics").html(html)    
+            },10);
+        }
+    });
 }
 
 function copyToClipboard(elementId) {

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>{{.Title}}</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/style.css" >
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    </head>
+    <body class="bg">
+        <div class="container">
+            <div id="logo">
+                <a href="/"><img src="/static/css/wsite4.jpg" alt="WSITEBRASIL"></a>
+            </div>
+            <div class="jumbotron jumbotron-fluid">
+                <div class="col-12 text-left">
+                    <h1>
+                        <a href="/" class="btn btn-primary" tabindex="0" alt="come back" title="come back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                        {{.SubTitle}} <a href="{{.Short}}" title="Url shorten">{{.Short}}</a>
+                    </h1>
+                    <!--
+                    <div class="created" style="margin-top:5px; margin-right:0px; margin-bottom:5px; margin-left:0px; font-size:14px;">Created: {{.Created}}</div>
+                    -->
+                    <div class="long-url" style="font-size:14px; word-break:break-all;">Original URL: <a href="{{.Original}}" class="" tabindex="0" alt="original url" title="view original url">{{.Original}} <i class="fa fa-external-link-square fa-2 text-primary" aria-hidden="true"></i></a></div>
+                </div>
+            </div>
+            <div class="col-12 justify-content-sm-center">
+                <div class="col-3">
+                    Total Clicks
+                    <h1>{{.TotalClicks}}</h1>
+                </div>
+                <form>
+                    <input type="hidden" id="tokenAnalytcis" value="{{.tokenAnalytcis}}"/>
+                </form>
+                
+                <table class="table table-striped table-hover table-bordered" width="100%">
+                    <thead>
+                        <tr><th colspan="4" class="text-center mt-5">VIEWING RESULTS ANALYTICS</th></tr>
+                        <tr>
+                            <th>REFERER</th>
+                            <th>VIEWS</th>
+                            <th>BROWSER</th>
+                            <th>DATA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="viwsResultsAnalytics">
+                            
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <script src="https://use.fontawesome.com/752dbceb52.js"></script>
+        <script src="/static/js/funcjs.js"></script>
+    </body>
+</html>
+
