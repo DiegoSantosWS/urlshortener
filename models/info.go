@@ -17,6 +17,7 @@ type DadosLog struct {
 	IP        string         `json:"ip" db:"ip"`
 	REFER     sql.NullString `json:"referencia,omitempty" db:"referencia"`
 	NAVIGATOR sql.NullString `json:"browser,omitempty" db:"browser"`
+	Os        sql.NullString `json:"sysoperacional,omitempty" db:"sysoperacional"`
 	DATA      string         `json:"data" db:"data"`
 	CONTA     string         `json:"contador" db:"contador"`
 }
@@ -26,7 +27,7 @@ func Info(w http.ResponseWriter, r *http.Request) {
 	tock := mux.Vars(r)
 	valor := tock["id"]
 
-	sql := "SELECT l.url, l.ip, referencia, browser, DATE_FORMAT(l.data, '%d/%m/%Y %H:%i:%s') AS data, COUNT(l.id) as contador FROM logquery as l WHERE l.token = ? GROUP BY l.id ORDER BY l.id DESC"
+	sql := "SELECT l.url, l.ip, referencia, browser, sysoperacional, DATE_FORMAT(l.data, '%d/%m/%Y %H:%i:%s') AS data, COUNT(l.id) as contador FROM logquery as l WHERE l.token = ? GROUP BY l.id ORDER BY l.id DESC"
 	rows, err := cone.Db.Queryx(sql, valor)
 	if err != nil {
 		fmt.Println("Erro ao buscar informações de acesso. ERROR", sql, " - ", err.Error())
@@ -51,7 +52,7 @@ func Info(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Erro ao buscar informações de acesso. ERROR ", err.Error())
 			return
 		}
-		retorno = append(retorno, DadosLog{dados.URL, dados.IP, dados.REFER, dados.NAVIGATOR, dados.DATA, dados.CONTA})
+		retorno = append(retorno, DadosLog{dados.URL, dados.IP, dados.REFER, dados.NAVIGATOR, dados.Os, dados.DATA, dados.CONTA})
 	}
 	retornoJSON, err := json.Marshal(retorno)
 	if err != nil {

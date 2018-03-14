@@ -59,10 +59,10 @@ function viewIformation(teste) {
                 jQuery.each(data, function(i, item){
                     
                     html += "<tr>";
-                    
                     html += "<td>"+item.referencia.String+"</td>";
                     html += "<td>"+item.contador+"</td>";
-                    html += "<td>"+item.browser.String+"</td>"
+                    html += "<td>"+item.browser.String+"</td>";
+                    html += "<td>"+item.sysoperacional.String+"</td>";
                     html += "<td>"+item.data+"</td>";
                     html += "</tr>"; 
                 })
