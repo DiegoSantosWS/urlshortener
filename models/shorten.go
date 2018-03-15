@@ -21,7 +21,7 @@ const (
 
 //Shorten gerador de token para url
 func Shorten(w http.ResponseWriter, r *http.Request) {
-
+	CheckSession(w, r)
 	var (
 		shortenURL string
 		token      string
@@ -36,15 +36,15 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Erro url", err.Error())
 			return
 		}
-		//tamanho := len(urlOrignal)
+		tamanho := len(urlOrignal)
 		tokenMD5 := GetMD5Hash(urlOrignal)
 		tcknExist := RandStringBytesMaskImpr(6)
 
 		//fmt.Println()
 		if CheckTokenExist(tcknExist) == false {
-			token = RandStringBytesMaskImpr(5 + 1 - 2)
+			token = RandStringBytesMaskImpr(tamanho/tamanho + 7)
 		} else {
-			token = RandStringBytesMaskImpr(7 * 1)
+			token = RandStringBytesMaskImpr(tamanho/tamanho + 4*1 - 50)
 		}
 		shortenURL = "http://localhost:3000/r/" + token
 		_, err = InsertURL(urlOrignal, tokenMD5, token, shortenURL)

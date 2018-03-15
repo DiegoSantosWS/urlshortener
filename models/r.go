@@ -21,7 +21,7 @@ type DadosUsuarios struct {
 func Redirection(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	tokenURL := vars["token"]
-	referencia := r.Referer()
+	referencia := r.Header.Get("Referer")
 	//browser := r.Header.Get("User-Agent")
 	uagent := r.Header.Get("User-Agent")
 	parser, err := uaparser.New("regexes.yaml")

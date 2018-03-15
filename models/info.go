@@ -24,6 +24,7 @@ type DadosLog struct {
 
 //Info retorna informações de acesso da url
 func Info(w http.ResponseWriter, r *http.Request) {
+	CheckSession(w, r)
 	tock := mux.Vars(r)
 	valor := tock["id"]
 
@@ -38,15 +39,6 @@ func Info(w http.ResponseWriter, r *http.Request) {
 	dados := DadosLog{}
 	var retorno []DadosLog
 	for rows.Next() {
-		/*
-			var (
-				URL       string
-				IP        string
-				REFER     string
-				NAVIGATOR string
-				DATA      string
-				CONTA     string
-			)*/
 		err := rows.StructScan(&dados)
 		if err != nil {
 			fmt.Println("Erro ao buscar informações de acesso. ERROR ", err.Error())

@@ -1,6 +1,24 @@
 $(document).ready(function(){
     showresults();
     viewIformation($("#tokenAnalytcis").val())
+
+    $("#email").on("change", function(){
+        var email = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url:"/check-cad/"+email,
+            dataType: "json",
+            success: function(data) {
+                if (data != 0) {
+                    swal('OPS:',"O e-mail, "+email+" já existe em nosso sistema",'warning');
+                    //alert("O email: "+email+" já existe em nosso sistema");
+                    $("#email").val('')
+                    $("#email").focus()
+                }
+            }
+        })
+    });
 });
 
 function analytics(id) {

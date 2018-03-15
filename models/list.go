@@ -10,6 +10,7 @@ import (
 
 //ListResults lista todos os resultados cadastrados
 func ListResults(w http.ResponseWriter, r *http.Request) {
+	CheckSession(w, r)
 	sql := "SELECT u.url, u.token  FROM url as u ORDER BY u.id DESC "
 	rows, err := cone.Db.Queryx(sql)
 	if err != nil {
@@ -45,6 +46,7 @@ func ListResults(w http.ResponseWriter, r *http.Request) {
 
 //CountClicks conta total de clicks que token obteve
 func CountClicks(token string) string {
+
 	sql := "SELECT count(*) as total  FROM logquery WHERE token = ? "
 	rows, err := cone.Db.Queryx(sql, token)
 	if err != nil {

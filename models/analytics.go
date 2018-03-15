@@ -17,6 +17,7 @@ type OriginalURL struct {
 
 //AnalyticsResults retorna os dados para template
 func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
+	CheckSession(w, r)
 	var cod = mux.Vars(r)
 	id := cod["id"]
 
