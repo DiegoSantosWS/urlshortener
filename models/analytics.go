@@ -44,7 +44,7 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 
 	data := map[string]interface{}{
 		"SubTitle":       "Analytics data for",
-		"Short":          "https://wsib.ws/" + id,
+		"Short":          "https://wsib.ws:3000/" + id,
 		"Original":       original,
 		"tokenAnalytcis": id,
 		"TotalClicks":    totalClcks,

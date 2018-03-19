@@ -48,7 +48,7 @@ function showresults() {
                     html += "<tr>";
                     html += "<td><a href='"+item.url+"'>"+urlNew+"</a></td>";
                     html += "<td>";
-                    html += "<a id='"+i+"' href='http://localhost:3000/r/"+item.token+"'>http://localhost:3000/r/"+item.token+"</a>";
+                    html += "<a id='"+i+"' href='http://wsib.ws/r/"+item.token+"'>http://wsib.ws/r/"+item.token+"</a>";
                     html += "   <button onclick='copyToClipboard("+i+")' title='Copy short URL'><i class='fa fa-copy fa-2 text-primary' aria-hidden='true'></i></button>";
                     html += "</td>";
                     html += "<td>"+item.total+"</td>";
