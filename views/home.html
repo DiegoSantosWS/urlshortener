@@ -41,7 +41,9 @@
                 </div>
                     <table class="table table-striped table-hover table-bordered" width="100%">
                         <thead>
-                            <tr><th colspan="4" class="text-center mt-5">VIEWING RESULTS</th></tr>
+                            <tr>
+                                <th colspan="4" class="text-center mt-5">VIEWING RESULTS <button type="button" class="btn btn-warning text-primary" onclick="window.location='/home'" style="position:relative; left:420px;" title="Refresh"><i class="fa fa-refresh fa-2" aria-hidden="true"></i></button></th>
+                            </tr>
                             <tr>
                                 <th>URL</th>
                                 <th>SHORTENING</th>
@@ -50,7 +52,7 @@
                             </tr>
                         </thead>
                         <tbody id="viwsResults">
-                            
+                            <tr id="loaging"><td colspan="4" class="text-center"><img src="/static/img/carregando.gif" width="50" height="50"></td></tr>
                         </tbody>
                     </table>
             </div>
