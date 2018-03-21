@@ -20,6 +20,7 @@ $(document).ready(function(){
     
     showresults();
     viewIformation($("#tokenAnalytcis").val());
+    //showChartBrowser($("#tokenAnalytcisChartBrowser").val());
 });
 /**
  * Abre a aprte de informações de acessos.

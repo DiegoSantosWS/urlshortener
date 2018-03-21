@@ -15,4 +15,6 @@ var (
 	ModelosRedirection = template.Must(template.ParseFiles("views/r.html"))
 	//ModelosAnalytics teste teste teste
 	ModelosAnalytics = template.Must(template.ParseFiles("views/analytics-wd.html"))
+	//ModelosAnalyticsChart carregando a template de chart
+	ModelosAnalyticsChart = template.Must(template.ParseFiles("views/chart.html"))
 )

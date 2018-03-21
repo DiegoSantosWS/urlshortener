@@ -15,7 +15,7 @@ var Db *sqlx.DB
 func Connection() (err error) {
 	err = nil
 
-	Db, err = sqlx.Open("mysql", "user:pass@tcp(127.0.0.1:3306)/dbname")
+	Db, err = sqlx.Open("mysql", "user:pass@tcp(host:3306)/dbname")
 	if err != nil {
 		return
 	}

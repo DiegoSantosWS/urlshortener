@@ -27,6 +27,8 @@ func Routers() {
 
 	r.HandleFunc("/list", models.ListResults)
 	r.HandleFunc("/info/{id}", models.Info)
+	r.HandleFunc("/analyticsChar/{id}", models.AnalytcsChart)
+	r.HandleFunc("/info-browser/{id}", models.GetBrowsersReferer)
 
 	log.Fatal(http.ListenAndServe(":3000", r))
 }
