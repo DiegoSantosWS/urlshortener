@@ -15,6 +15,8 @@ import (
 type OriginalURL struct {
 	URL string `json:"url" db:"url"`
 }
+
+//BrowserReferer retornar os dados do browswer
 type BrowserReferer struct {
 	Browser string `json:"browser" db:"browser"`
 	Click   string `json:"clicks"`
@@ -60,6 +62,7 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//AnalytcsChart Montando grafico
 func AnalytcsChart(w http.ResponseWriter, r *http.Request) {
 
 	cod := mux.Vars(r)
@@ -99,6 +102,7 @@ func AnalytcsChart(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//GetBrowsersReferer retornar a referencia dos browsers
 func GetBrowsersReferer(w http.ResponseWriter, r *http.Request) {
 	cod := mux.Vars(r)
 	var id = cod["id"]

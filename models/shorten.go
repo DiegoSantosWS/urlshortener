@@ -46,7 +46,7 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 		} else {
 			token = RandStringBytesMaskImpr(tamanho/tamanho + 4*1 - 50)
 		}
-		shortenURL = "http://wsib.ws:3000/r/" + token
+		shortenURL = "http://localhost:3000/" + token
 		_, err = InsertURL(urlOrignal, tokenMD5, token, shortenURL)
 		if err != nil {
 			fmt.Println("Erro: ", err.Error())

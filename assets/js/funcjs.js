@@ -37,8 +37,8 @@ function analytics(id) {
 function showresults() {
     //Carrega Lista de conteudos cadastrados
     $.ajax({
-        url: "/list",
-        type:"jsonp",
+        url: "/list/",
+        type:"json",
         crossDomain: true,
         success:function(data) {
             var html = "";
@@ -55,7 +55,7 @@ function showresults() {
                 html += "<tr>";
                 html += "<td><a href='"+item.url+"'>"+urlNew+"</a></td>";
                 html += "<td>";
-                html += "<a id='"+i+"' href='http://wsib.ws:3000/r/"+item.token+"'>http://wsib.ws:3000/r/"+item.token+"</a>";
+                html += "<a id='"+i+"' href='http://localhost:3000/"+item.token+"'>http://localhost:3000/"+item.token+"</a>";
                 html += "   <button onclick='copyToClipboard("+i+")' title='Copy short URL'><i class='fa fa-copy fa-2 text-primary' aria-hidden='true'></i></button>";
                 html += "</td>";
                 html += "<td>"+item.total+"</td>";

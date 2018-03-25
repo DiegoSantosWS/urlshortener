@@ -1,6 +1,8 @@
 package helpers
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"golang.org/x/crypto/bcrypt"
+)
 
 //HashPassword encripta uma senha passada para o bando de dados
 func HashPassword(password string) (string, error) {

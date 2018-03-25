@@ -85,7 +85,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 //CheckSession verifica uma sessão
 func CheckSession(w http.ResponseWriter, r *http.Request) {
 	session, _ := Store.Get(r, "logado")
+	fmt.Println(session.Values["autorizado"])
 	if auth, ok := session.Values["autorizado"].(bool); !ok || !auth {
+		if auth == false {
+			http.Redirect(w, r, "/", 301)
+			//http.Error(w, "Acesso negado", http.StatusInternalServerError)
+		}
 		http.Error(w, "Acesso negado", http.StatusInternalServerError)
 		return
 	}
