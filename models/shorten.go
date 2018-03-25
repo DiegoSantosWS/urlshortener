@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -33,7 +34,7 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 		urlOrignal := r.FormValue("shorturl")
 		_, err := url.Parse(urlOrignal)
 		if err != nil {
-			fmt.Println("Erro url", err.Error())
+			log.Fatal(err.Error())
 			return
 		}
 		tamanho := len(urlOrignal)

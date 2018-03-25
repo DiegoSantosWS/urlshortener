@@ -2,7 +2,7 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
@@ -14,7 +14,7 @@ func ListResults(w http.ResponseWriter, r *http.Request) {
 	sql := "SELECT u.url, u.token  FROM url as u ORDER BY u.id DESC "
 	rows, err := cone.Db.Queryx(sql)
 	if err != nil {
-		fmt.Println("[GRUPO] Erro ao buscar informações de GRUPO: ", sql, " - ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 
@@ -37,7 +37,7 @@ func ListResults(w http.ResponseWriter, r *http.Request) {
 	}
 	groupData, err := json.Marshal(groups)
 	if err != nil {
-		fmt.Println("[GRUPO] Erro ao buscar informações de GRUPO: ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -50,7 +50,7 @@ func CountClicks(token string) string {
 	sql := "SELECT count(*) as total  FROM logquery WHERE token = ? "
 	rows, err := cone.Db.Queryx(sql, token)
 	if err != nil {
-		fmt.Println("[CONTADOR] Erro ao buscar informações de GRUPO: ", sql, " - ", err.Error())
+		log.Fatal(err.Error())
 		return ""
 	}
 
@@ -60,7 +60,7 @@ func CountClicks(token string) string {
 	for rows.Next() {
 		err := rows.Scan(&total)
 		if err != nil {
-			fmt.Println("[CONTADOR] Erro ao buscar total de clickes: - ", err.Error())
+			log.Fatal(err.Error())
 			return ""
 		}
 	}

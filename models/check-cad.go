@@ -2,7 +2,7 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
@@ -22,7 +22,7 @@ func CheckCad(w http.ResponseWriter, r *http.Request) {
 	sql := "SELECT id FROM users WHERE email = ? LIMIT 1"
 	rows, err := cone.Db.Queryx(sql, email)
 	if err != nil {
-		fmt.Println("[CHECK] Erro ao executar consulta", sql, " - ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 
@@ -32,14 +32,14 @@ func CheckCad(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		err := rows.Scan(&user.ID)
 		if err != nil {
-			fmt.Println("[CHECK] Erro ao executar ", sql, " - ", err.Error())
+			log.Fatal(err.Error())
 			return
 		}
 		retornoJ = user.ID
 	}
 	retornoJSON, err := json.Marshal(retornoJ)
 	if err != nil {
-		fmt.Println("[GRUPO] Erro ao buscar informações de GRUPO: ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")

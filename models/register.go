@@ -1,7 +1,7 @@
 package models
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
@@ -17,7 +17,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 	if err := controller.ModelosRegister.ExecuteTemplate(w, "register.html", data); err != nil {
 		http.Error(w, "[CONTENT ERRO] Erro in the execute template", http.StatusInternalServerError)
-		fmt.Println("Erro ao executar template", err.Error())
+		log.Fatal(err.Error())
 	}
 }
 
@@ -34,12 +34,12 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	sql := "INSERT INTO users (nome, email, login, pass) VALUES (?, ?, ?, ?) "
 	stmt, err := cone.Db.Exec(sql, name, email, user, pass)
 	if err != nil {
-		fmt.Println("[CADEX:] Erro na inclusão do usuario", sql, " - ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 	_, errs := stmt.RowsAffected()
 	if errs != nil {
-		fmt.Println("[CADEX:] Erro ao pegar numero de linhas", sql, " - ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 	http.Redirect(w, r, "/", 301)

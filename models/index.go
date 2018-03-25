@@ -1,7 +1,7 @@
 package models
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/DiegoSantosWS/encurtador-url/controller"
@@ -14,6 +14,6 @@ func IndexLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	if err := controller.ModelosIndex.ExecuteTemplate(w, "index.html", data); err != nil {
 		http.Error(w, "[CONTENT ERRO] Erro in the execute template", http.StatusInternalServerError)
-		fmt.Println("Erro ao executar template", err.Error())
+		log.Fatal(err.Error())
 	}
 }

@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -33,7 +34,7 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 	sql := "SELECT url FROM url WHERE token = ? LIMIT 1"
 	rows, err := cone.Db.Queryx(sql, id)
 	if err != nil {
-		fmt.Println("[analytics] erro ao buscar url orginal: ", sql, " - ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 
@@ -43,7 +44,7 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		err := rows.StructScan(&dadosURL)
 		if err != nil {
-			fmt.Println("Erro ao renderizar a url para variavel", err.Error())
+			log.Fatal(err.Error())
 			return
 		}
 		original = dadosURL.URL
@@ -72,7 +73,7 @@ func AnalytcsChart(w http.ResponseWriter, r *http.Request) {
 	sql := "SELECT url FROM url WHERE token = ? LIMIT 1"
 	rows, err := cone.Db.Queryx(sql, id)
 	if err != nil {
-		fmt.Println("[analytics] erro ao buscar url orginal: ", sql, " - ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 
@@ -82,7 +83,7 @@ func AnalytcsChart(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		err := rows.StructScan(&dadosURL)
 		if err != nil {
-			fmt.Println("Erro ao renderizar a url para variavel", err.Error())
+			log.Fatal(err.Error())
 			return
 		}
 		original = dadosURL.URL
@@ -98,7 +99,7 @@ func AnalytcsChart(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(id)
 	if err := controller.ModelosAnalyticsChart.ExecuteTemplate(w, "chart.html", data); err != nil {
 		http.Error(w, "[CHART] Erro in the execute template", http.StatusInternalServerError)
-		fmt.Println("Erro ao executar template", err.Error())
+		log.Fatal(err.Error())
 	}
 }
 
@@ -111,7 +112,7 @@ func GetBrowsersReferer(w http.ResponseWriter, r *http.Request) {
 	sql := "SELECT DISTINCT(browser) as browser FROM logquery WHERE token = ? "
 	rows, err := cone.Db.Queryx(sql, id)
 	if err != nil {
-		fmt.Println("[analytics chart] erro ao buscar url orginal: ", sql, " - ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 
@@ -121,7 +122,7 @@ func GetBrowsersReferer(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		err := rows.StructScan(&dadosB)
 		if err != nil {
-			fmt.Println("Erro ao renderizar a url para variavel", err.Error())
+			log.Fatal(err.Error())
 			return
 		}
 		dadosB.Click = "2"
@@ -130,7 +131,7 @@ func GetBrowsersReferer(w http.ResponseWriter, r *http.Request) {
 	}
 	retornoJSON, err := json.Marshal(browser)
 	if err != nil {
-		fmt.Println("[GRUPO] Erro ao buscar informações de GRUPO: ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")

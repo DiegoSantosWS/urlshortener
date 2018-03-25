@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
@@ -41,14 +42,14 @@ func Info(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		err := rows.StructScan(&dados)
 		if err != nil {
-			fmt.Println("Erro ao buscar informações de acesso. ERROR ", err.Error())
+			log.Fatal(err.Error())
 			return
 		}
 		retorno = append(retorno, DadosLog{dados.URL, dados.IP, dados.REFER, dados.NAVIGATOR, dados.Os, dados.DATA, dados.CONTA})
 	}
 	retornoJSON, err := json.Marshal(retorno)
 	if err != nil {
-		fmt.Println("[GRUPO] Erro ao buscar informações de GRUPO: ", err.Error())
+		log.Fatal(err.Error())
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")

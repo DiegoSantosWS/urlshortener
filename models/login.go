@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
@@ -54,7 +55,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		sql := "SELECT id, nome, email, login, pass FROM users WHERE login = ? "
 		rows, err := cone.Db.Queryx(sql, usr.User)
 		if err != nil {
-			fmt.Println("[LOGIN] Erro ao executar o login", sql, " - ", err.Error())
+			log.Fatal(err.Error())
 			return
 		}
 		defer rows.Close()
@@ -62,7 +63,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		for rows.Next() {
 			err := rows.StructScan(&user)
 			if err != nil {
-				fmt.Println("[LOGIN] Erro ao executar o login", sql, " - ", err.Error())
+				log.Fatal(err.Error())
 				return
 			}
 		}

@@ -35,8 +35,8 @@ func Routers() {
 
 	listener, err := net.Listen("tcp", ":0")
 	if err != nil {
-		fmt.Println("[HELPERS-PORT] ERRO AO RECUPERAR A PORTA", err.Error())
-		panic(err)
+		log.Fatal(err.Error())
+		return
 	}
 	port := listener.Addr().(*net.TCPAddr).Port
 	fmt.Printf("Seu sistema está rodando em: http://localhost:%d\n\r", port)

@@ -9,7 +9,7 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-func init() {
+func main() {
 	fmt.Println("Iniciando servidor...")
 	err := cone.Connection()
 	if err != nil {
@@ -17,10 +17,6 @@ func init() {
 		return
 	}
 	fmt.Println("Server iniciado.")
-}
-
-func main() {
-
 	// for example, server receive token string in request header.
 	tokenstring := helpers.TokenGenerate()
 
