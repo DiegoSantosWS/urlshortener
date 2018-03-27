@@ -127,7 +127,7 @@ func CheckTokenExist(token string) bool {
 
 	switch {
 	case err != nil:
-		log.Fatal(err)
+
 		return false
 	default:
 		if tokenReturned != "" {
