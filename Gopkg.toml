@@ -19,9 +19,7 @@
 #
 [metadata.heroku]
   root-package = "github.com/DiegoSantosWS/encurtador-url"
-  go-version = "go1.9.2"
-  install = [ "./encurtador-url/...", "./encurtador-url" ]
-  ensure = "false"
+  install = ["./..."]
 
 [[override]]
   name = "github.com/x/y"
