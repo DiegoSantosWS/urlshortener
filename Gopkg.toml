@@ -9,21 +9,15 @@
 # [[constraint]]
 #   name = "github.com/user/project"
 #   version = "1.0.0"
-#    branch = "master"
-#    revision = "revised"
 #
 # [[constraint]]
 #   name = "github.com/user/project2"
 #   branch = "dev"
 #   source = "github.com/myfork/project2"
 #
-[metadata.heroku]
-  root-package = "github.com/DiegoSantosWS/encurtador-url"
-  install = ["./..."]
-
-[[override]]
-  name = "github.com/x/y"
-  version = "2.4.0"
+# [[override]]
+#  name = "github.com/x/y"
+#  version = "2.4.0"
 
 
 [[constraint]]
@@ -53,3 +47,7 @@
 [[constraint]]
   branch = "master"
   name = "golang.org/x/crypto"
+
+[metadata.heroku]
+  root-package = "github.com/DiegoSantosWS/encurtador-url"
+  install = ["./..."]

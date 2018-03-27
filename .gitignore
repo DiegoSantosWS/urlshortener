@@ -1,4 +1,4 @@
 *.txt
-*.toml
-*.lock
-vendor/*
+Gopkg.toml
+Gopkg.lock
+/vendor/*
