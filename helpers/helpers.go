@@ -3,8 +3,8 @@ package helpers
 import (
 	"fmt"
 	"log"
-	"net"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 
@@ -25,13 +25,13 @@ func CheckPasswordHash(password, hash string) bool {
 
 func Runn(r *mux.Router) {
 	/*
-	listener, err := net.Listen("tcp", ":0")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	defer listener.Close()
+		listener, err := net.Listen("tcp", ":0")
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		defer listener.Close()
 
-	port := listener.Addr().(*net.TCPAddr).Port
+		port := listener.Addr().(*net.TCPAddr).Port
 	*/
 	port := os.Getenv("PORT")
 	fmt.Sprintf(":%s", port)
