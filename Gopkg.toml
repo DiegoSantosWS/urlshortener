@@ -7,7 +7,7 @@
 # ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
 #
 # [[constraint]]
-#   name = "github.com/user/project"
+#   name = "github.com/DiegoSantosWS/encurtador-url"
 #   version = "1.0.0"
 #
 # [[constraint]]
