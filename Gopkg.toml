@@ -6,11 +6,11 @@
 # required = ["github.com/user/thing/cmd/thing"]
 # ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
 #
-# [[constraint]]
-#   name = "github.com/user/project"
-#   version = "1.0.0"
-    branch = "master"
-    revision = "revised"
+[[constraint]]
+  name = "github.com/DiegoSantosWS/encurtador-url"
+  version = "1.0.0"
+  branch = "master"
+  revision = "revised"
 #
 # [[constraint]]
 #   name = "github.com/user/project2"
