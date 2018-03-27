@@ -1,6 +1,13 @@
 package helpers
 
 import (
+	"fmt"
+	"log"
+	"net"
+	"net/http"
+
+	"github.com/gorilla/mux"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -14,4 +21,17 @@ func HashPassword(password string) (string, error) {
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+func Runn(r *mux.Router) {
+	listener, err := net.Listen("tcp", ":0")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer listener.Close()
+
+	port := listener.Addr().(*net.TCPAddr).Port
+
+	fmt.Printf("Sistema rodando na porta: %d\n\r", port)
+	log.Fatal(http.Serve(listener, r))
 }

@@ -1,11 +1,9 @@
 package routers
 
 import (
-	"fmt"
-	"log"
-	"net"
 	"net/http"
 
+	"github.com/DiegoSantosWS/encurtador-url/helpers"
 	"github.com/DiegoSantosWS/encurtador-url/models"
 	"github.com/gorilla/mux"
 )
@@ -33,13 +31,5 @@ func Routers() {
 	r.HandleFunc("/analyticsChar/{id}", models.AnalytcsChart)
 	r.HandleFunc("/info-browser/{id}", models.GetBrowsersReferer)
 
-	listener, err := net.Listen("tcp", ":0")
-	if err != nil {
-		log.Fatal(err.Error())
-		return
-	}
-	port := listener.Addr().(*net.TCPAddr).Port
-	fmt.Printf("Seu sistema está rodando em: http://localhost:%d\n\r", port)
-	log.Fatal(http.Serve(listener, r))
-
+	helpers.Runn(r)
 }

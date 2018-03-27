@@ -8,40 +8,49 @@ import (
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
 )
 
+//ListaURL retorna os dados da url
+type ListaURL struct {
+	URL       string `json:"url" db:"url"`
+	Tkn       string `json:"token" db:"token"`
+	Count     string `json:"total"`
+	ShrtenURL string `json:"shortenURL" db:"shortenURL"`
+}
+
 //ListResults lista todos os resultados cadastrados
 func ListResults(w http.ResponseWriter, r *http.Request) {
 	CheckSession(w, r)
-	sql := "SELECT u.url, u.token  FROM url as u ORDER BY u.id DESC "
-	rows, err := cone.Db.Queryx(sql)
+	//recebendo a sessão para buscar url's por empresa/usuario
+	session, _ := Store.Get(r, "logado")
+	id := session.Values["ID"]
+
+	sql := "SELECT u.url, u.token, u.shortenURL FROM url as u WHERE u.company = ? ORDER BY u.id DESC "
+	rows, err := cone.Db.Queryx(sql, id)
 	if err != nil {
 		log.Fatal(err.Error())
 		return
 	}
 
-	type Groups struct {
-		URL   string `json:"url"`
-		Tkn   string `json:"token"`
-		Count string `json:"total"`
-	}
 	defer rows.Close()
-
-	var groups []Groups
+	//dadosB := BrowserReferer{}
+	//var browser []BrowserReferer
+	dadosURL := ListaURL{}
+	var listURL []ListaURL
 	for rows.Next() {
-		var URL string
-		var Tkn string
-		var Cont string
 
-		rows.Scan(&URL, &Tkn)
-		Cont = CountClicks(Tkn)
-		groups = append(groups, Groups{URL, Tkn, Cont})
+		err := rows.StructScan(&dadosURL)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		dadosURL.Count = CountClicks(dadosURL.Tkn)
+		listURL = append(listURL, ListaURL{dadosURL.URL, dadosURL.Tkn, dadosURL.Count, dadosURL.ShrtenURL})
 	}
-	groupData, err := json.Marshal(groups)
+	listURLData, err := json.Marshal(listURL)
 	if err != nil {
 		log.Fatal(err.Error())
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(groupData)
+	w.Write(listURLData)
 }
 
 //CountClicks conta total de clicks que token obteve

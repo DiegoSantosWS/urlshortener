@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
 	"github.com/DiegoSantosWS/encurtador-url/helpers"
@@ -13,10 +14,11 @@ func main() {
 	fmt.Println("Iniciando servidor...")
 	err := cone.Connection()
 	if err != nil {
-		fmt.Println("Erro ao abrir banco de dandos: ", err.Error())
-		return
+		log.Fatal("Erro ao abrir banco de dandos: ", err.Error())
 	}
+
 	fmt.Println("Server iniciado.")
+
 	// for example, server receive token string in request header.
 	tokenstring := helpers.TokenGenerate()
 
@@ -32,4 +34,5 @@ func main() {
 	if token.Valid == true {
 		routers.Routers()
 	}
+	fmt.Println("Server iniciado.")
 }

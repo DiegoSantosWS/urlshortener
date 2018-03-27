@@ -14,7 +14,8 @@ import (
 
 //OriginalURL recebe o valor do banco em forma de struct
 type OriginalURL struct {
-	URL string `json:"url" db:"url"`
+	URL       string `json:"url" db:"url"`
+	Shortener string `json:"shortenURL" db:"shortenURL"`
 }
 
 //BrowserReferer retornar os dados do browswer
@@ -31,7 +32,7 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 
 	totalClcks := CountClicks(id)
 
-	sql := "SELECT url FROM url WHERE token = ? LIMIT 1"
+	sql := "SELECT url, shortenURL FROM url WHERE token = ? LIMIT 1"
 	rows, err := cone.Db.Queryx(sql, id)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -41,6 +42,7 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 	defer rows.Close()
 	dadosURL := OriginalURL{}
 	var original string
+	var short string
 	for rows.Next() {
 		err := rows.StructScan(&dadosURL)
 		if err != nil {
@@ -48,11 +50,12 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		original = dadosURL.URL
+		short = dadosURL.Shortener
 	}
 
 	data := map[string]interface{}{
 		"SubTitle":       "Analytics data for",
-		"Short":          "https://wsib.ws:3000/" + id,
+		"Short":          short,
 		"Original":       original,
 		"tokenAnalytcis": id,
 		"TotalClicks":    totalClcks,
@@ -123,8 +126,8 @@ func GetBrowsersReferer(w http.ResponseWriter, r *http.Request) {
 		err := rows.StructScan(&dadosB)
 		if err != nil {
 			log.Fatal(err.Error())
-			return
 		}
+
 		dadosB.Click = "2"
 		teste := dadosB.Click
 		browser = append(browser, BrowserReferer{dadosB.Browser, teste})
@@ -132,7 +135,6 @@ func GetBrowsersReferer(w http.ResponseWriter, r *http.Request) {
 	retornoJSON, err := json.Marshal(browser)
 	if err != nil {
 		log.Fatal(err.Error())
-		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(retornoJSON)

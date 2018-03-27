@@ -23,9 +23,11 @@ const (
 //Shorten gerador de token para url
 func Shorten(w http.ResponseWriter, r *http.Request) {
 	CheckSession(w, r)
+
 	var (
 		shortenURL string
 		token      string
+		persona    string
 	)
 
 	switch {
@@ -37,21 +39,23 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err.Error())
 			return
 		}
-		tamanho := len(urlOrignal)
+		//tamanho := len(urlOrignal)
 		tokenMD5 := GetMD5Hash(urlOrignal)
-		tcknExist := RandStringBytesMaskImpr(6)
+		tcknExist := RandStringBytesMaskImpr(4)
 
 		//fmt.Println()
 		if CheckTokenExist(tcknExist) == false {
-			token = RandStringBytesMaskImpr(tamanho/tamanho + 7)
+			token = tcknExist
 		} else {
-			token = RandStringBytesMaskImpr(tamanho/tamanho + 4*1 - 50)
+			token = RandStringBytesMaskImpr(4 + 4*1 - 5)
 		}
-		shortenURL = "http://localhost:3000/" + token
-		_, err = InsertURL(urlOrignal, tokenMD5, token, shortenURL)
+
+		shortenURL = r.Host + "/" + token
+		session, _ := Store.Get(r, "logado")
+		company := session.Values["ID"]
+		_, err = InsertURL(urlOrignal, tokenMD5, token, shortenURL, persona, company)
 		if err != nil {
-			fmt.Println("Erro: ", err.Error())
-			return
+			log.Fatal(err.Error())
 		}
 		data := map[string]interface{}{
 			"Title": "WSITEBRASIL SHORTENING URL",
@@ -59,7 +63,7 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 		}
 		if err := controller.ModelosHome.ExecuteTemplate(w, "home.html", data); err != nil {
 			http.Error(w, "[CONTENT ERRO] Erro in the execute template", http.StatusInternalServerError)
-			fmt.Println("Erro ao executar template", err.Error())
+			log.Fatal(err.Error())
 		}
 		break
 	case r.Method == http.MethodGet:
@@ -68,7 +72,7 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 		}
 		if err := controller.ModelosHome.ExecuteTemplate(w, "home.html", data); err != nil {
 			http.Error(w, "[CONTENT ERRO] Erro in the execute template", http.StatusInternalServerError)
-			fmt.Println("Erro ao executar template", err.Error())
+			log.Fatal(err.Error())
 		}
 		break
 	default:
@@ -83,18 +87,18 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
  * shortenURL  recebe uma string
  * @return string or error
  */
-func InsertURL(url string, tokenMD5 string, token string, shortenURL string) (string, error) {
-	sql := "INSERT INTO url (url, tokenMD5, token, shortenURL) VALUES (?, ?, ?, ?) "
-	stmt, err := cone.Db.Exec(sql, url, tokenMD5, token, shortenURL)
+func InsertURL(url string, tokenMD5 string, token string, shortenURL string, persona string, company interface{}) (string, error) {
+	sql := "INSERT INTO url (url, tokenMD5, token, shortenURL, personalised, company) VALUES (?, ?, ?, ?, ?, ?) "
+	stmt, err := cone.Db.Exec(sql, url, tokenMD5, token, shortenURL, persona, company)
 	if err != nil {
 		fmt.Println("[CADEX:] Erro na inclusão do usuario", sql, " - ", err.Error())
 	}
 
 	linas, errs := stmt.RowsAffected()
 	if errs != nil {
-		fmt.Println("[CADEX:] Erro ao pegar numero de linhas", sql, " - ", err.Error())
+		log.Fatal(errs.Error())
 	}
-	//fmt.Println("Linhas: ", linas, " linas(s) afetada(s)")
+
 	return string(linas), nil
 }
 
@@ -119,17 +123,19 @@ func RandomString(n int) string {
 //CheckTokenExist verifica se o token existe se existir vamos criar outro
 func CheckTokenExist(token string) bool {
 	var tokenReturned string
-	if token != "" {
-		sql := "SELECT token FROM url WHERE token = ? "
-		linha := cone.Db.QueryRowx(sql, token)
-		err := linha.Scan(&tokenReturned)
-		if err != nil {
-			//fmt.Println("ERROR ao buscar as informações do token", err.Error())
-			return false
+	err := cone.Db.QueryRowx("SELECT token FROM url WHERE token = ? LIMIT 1", token).Scan(&tokenReturned)
+
+	switch {
+	case err != nil:
+		log.Fatal(err)
+		return false
+	default:
+		if tokenReturned != "" {
+			//fmt.Printf("Token is %s\n", string(tokenReturned))
+			return true
 		}
-		return true
+		return false
 	}
-	return false
 }
 
 //RandStringBytesMaskImpr gerando token mais aleatorios
