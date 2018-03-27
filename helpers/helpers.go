@@ -24,6 +24,7 @@ func CheckPasswordHash(password, hash string) bool {
 }
 
 func Runn(r *mux.Router) {
+	/*
 	listener, err := net.Listen("tcp", ":0")
 	if err != nil {
 		log.Fatal(err.Error())
@@ -31,7 +32,8 @@ func Runn(r *mux.Router) {
 	defer listener.Close()
 
 	port := listener.Addr().(*net.TCPAddr).Port
-
-	fmt.Printf("Sistema rodando na porta: %d\n\r", port)
-	log.Fatal(http.Serve(listener, r))
+	*/
+	port := os.Getenv("PORT")
+	fmt.Sprintf(":%s", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
 }
