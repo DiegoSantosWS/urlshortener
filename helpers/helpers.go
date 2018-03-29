@@ -34,7 +34,7 @@ func Runn(r *mux.Router) {
 		port := listener.Addr().(*net.TCPAddr).Port
 	*/
 	port := os.Getenv("PORT")
-	fmt.Print(port)
-	log.Fatal(http.ListenAndServe(":3000", r))
-	//log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
+	//fmt.Print(port)
+	//log.Fatal(http.ListenAndServe(":3000", r))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
 }
