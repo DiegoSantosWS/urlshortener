@@ -1,5 +1,7 @@
 $(document).ready(function(){
-    
+    /**
+     * Checking if e-mail it's registed
+     */
     $("#email").on("change", function(){
         var email = $(this).val();
 
@@ -17,11 +19,15 @@ $(document).ready(function(){
             }
         })
     });
+    /**
+     * Login
+     */
     
     showresults();
     viewIformation($("#tokenAnalytcis").val());
     //showChartBrowser($("#tokenAnalytcisChartBrowser").val());
 });
+
 /**
  * Abre a aprte de informações de acessos.
  * @param {*} id 
@@ -55,11 +61,13 @@ function showresults() {
                 html += "<tr>";
                 html += "<td><a href='"+item.url+"'>"+urlNew+"</a></td>";
                 html += "<td>";
-                html += "<a id='"+i+"' href='http://"+item.shortenURL+"'>http://"+item.shortenURL+"</a>";
+                html += "   <a id='"+i+"' href='https://shortenerurlds.herokuapp.com/"+item.token+"' target='_blank'>https://shortenerurlds.herokuapp.com/"+item.token+"</a>";
                 html += "   <button onclick='copyToClipboard("+i+")' title='Copy short URL'><i class='fa fa-copy fa-2 text-primary' aria-hidden='true'></i></button>";
+                
                 html += "</td>";
                 html += "<td>"+item.total+"</td>";
                 html += "<td>";
+                html += "<button onclick='personalizeCode("+i+",\""+item.token+"\")' title='Personalize' class='btn btn-danger'><i class='fa fa-edit fa-2 text-primary' aria-hidden='true'></i></button>";
                 html += "<button type='button' onclick=\'analytics(\""+item.token+"\")\' class='btn btn-warning' title='Views Information of access url'>";
                 html += "<i class='fa fa-eye fa-2 text-primary' aria-hidden='true'></i>";
                 html += "</button>";
@@ -70,6 +78,65 @@ function showresults() {
         }
     });
 }
+/**
+ * Recebe o token para realizar as alterações
+ * @param {*} i 
+ * @param {*} token 
+ */
+function personalizeCode(i, token) {
+    swal({
+        title: 'Alterar Token?',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        showLoaderOnConfirm: true,
+        inputValue: token,
+        preConfirm: (newToken) => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                if (newToken != '') {
+                    $.ajax({
+                        type: "POST",
+                        url:"/new-token/"+newToken+"/"+token,
+                        dataType: "json",
+                        success: function(data) {
+                            console.log(data[0].Verificado)
+                            jQuery.each(data, function(i, item){
+                                if (item.Verifcado == true) {
+                                    swal({
+                                        type: 'success',
+                                        title: 'Token request finished!',
+                                        html: item.msg
+                                    });
+                                    setTimeout(function(){
+                                        redirect("/home")
+                                    }, 1000);
+                                } else {
+                                    swal({
+                                        type: 'error',
+                                        title: 'Token request finished!',
+                                        html: item.msg
+                                    });
+                                    setTimeout(function(){
+                                        redirect("/home")
+                                    }, 1000);
+                                }
+                            });
+                        }
+                    });
+                }
+                resolve()
+                }, 2000)
+            })
+        },
+        allowOutsideClick: () => !swal.isLoading()
+      }).then((result) => {
+        if (result.value) {
+            
+        }
+    })
+}
+
 /**
  * Retorna informações de uma url
  * @param {*} cod 
@@ -95,6 +162,8 @@ function viewIformation(cod) {
         }
     });
 }
+
+
 /**
  * Recebe um elemento para ser copiado.
  * @param {*} elementId 
@@ -112,4 +181,8 @@ function copyToClipboard(elementId) {
     document.execCommand("copy");
     // Remove it from the body
     document.body.removeChild(aux);
+}
+
+function redirect(url) {
+    window.location = url;
 }

@@ -55,7 +55,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		rows, err := cone.Db.Queryx(sql, usr.User)
 		if err != nil {
 			log.Fatal(err.Error())
-			return
 		}
 		defer rows.Close()
 		//for para buscar os dados do usuario
@@ -63,7 +62,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			err := rows.StructScan(&user)
 			if err != nil {
 				log.Fatal(err.Error())
-				return
 			}
 		}
 		entrar := helpers.CheckPasswordHash(usr.Pass, user.Senha)

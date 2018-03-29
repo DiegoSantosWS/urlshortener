@@ -25,6 +25,7 @@ func Routers() {
 	r.HandleFunc("/{token}", models.Redirection).Methods("GET")
 	r.HandleFunc("/analytics-wd/{id}", models.AnalyticsResults)
 	r.HandleFunc("/check-cad/{email}", models.CheckCad)
+	r.HandleFunc("/new-token/{newToken}/{tkn}", models.CheckToken)
 
 	r.HandleFunc("/list/", models.ListResults)
 	r.HandleFunc("/info/{id}", models.Info)

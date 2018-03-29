@@ -15,7 +15,7 @@ import (
 //OriginalURL recebe o valor do banco em forma de struct
 type OriginalURL struct {
 	URL       string `json:"url" db:"url"`
-	Shortener string `json:"shortenURL" db:"shortenURL"`
+	Shortener string `json:"shortenURL" db:"token"`
 }
 
 //BrowserReferer retornar os dados do browswer
@@ -32,7 +32,7 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 
 	totalClcks := CountClicks(id)
 
-	sql := "SELECT url, shortenURL FROM url WHERE token = ? LIMIT 1"
+	sql := "SELECT url, token FROM url WHERE token = ? LIMIT 1"
 	rows, err := cone.Db.Queryx(sql, id)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -55,7 +55,7 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 
 	data := map[string]interface{}{
 		"SubTitle":       "Analytics data for",
-		"Short":          short,
+		"Short":          "https://shortenerurlds.herokuapp.com/" + short,
 		"Original":       original,
 		"tokenAnalytcis": id,
 		"TotalClicks":    totalClcks,

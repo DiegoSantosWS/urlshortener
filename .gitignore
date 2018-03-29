@@ -1,4 +1,4 @@
 *.txt
 Gopkg.toml
 Gopkg.lock
-/vendor/*
+/vendor/
