@@ -56,7 +56,9 @@ func ListResults(w http.ResponseWriter, r *http.Request) {
 //CountClicks conta total de clicks que token obteve
 func CountClicks(token string) string {
 
-	sql := "SELECT count(*) as total  FROM logquery WHERE token = ? "
+	sql := "SELECT count(*) as total  FROM logquery WHERE token = ? AND referencia != '' "
+	sql += " and browser != 'FacebookBot' and browser != 'Slackbot-LinkExpanding' and browser != 'Facebook' and browser != 'Other' "
+
 	rows, err := cone.Db.Queryx(sql, token)
 	if err != nil {
 		log.Fatal(err.Error())

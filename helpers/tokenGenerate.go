@@ -7,6 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+//TokenGenerate gera token jwt
 func TokenGenerate() string {
 	claims := &jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(time.Hour * time.Duration(1)).Unix(),

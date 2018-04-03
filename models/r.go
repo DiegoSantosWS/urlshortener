@@ -5,7 +5,6 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"time"
 
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
 	"github.com/gorilla/mux"
@@ -42,8 +41,7 @@ func Redirection(w http.ResponseWriter, r *http.Request) {
 	linha, err := cone.Db.Queryx(sql, tokenURL)
 	if err != nil {
 		http.Error(w, "[ERRO] Código inixistente. verifique.", http.StatusInternalServerError)
-		fmt.Println("[ERRO] Usuário não encontrado", err.Error())
-		return
+		log.Fatal(err.Error())
 	}
 	defer linha.Close()
 	u := DadosUsuarios{}
@@ -71,8 +69,8 @@ func InsertClick(url, token, referencia, browser, sysoperacional string, w http.
 		log.Fatal(err.Error())
 	}
 
-	sql := "insert into logquery (url, token, ip, data, referencia, browser, sysoperacional) values (?,?,?,?,?,?,?)"
-	_, err = cone.Db.Exec(sql, url, token, ip, time.Now(), referencia, browser, sysoperacional)
+	sql := "insert into logquery (url, token, ip, referencia, browser, sysoperacional) values (?,?,?,?,?,?)"
+	_, err = cone.Db.Exec(sql, url, token, ip, referencia, browser, sysoperacional)
 	if err != nil {
 		log.Fatal(err.Error())
 		return false

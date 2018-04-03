@@ -1,23 +1,14 @@
 package models
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"fmt"
 	"log"
-	"math/rand"
 	"net/http"
 	"net/url"
 
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
 	"github.com/DiegoSantosWS/encurtador-url/controller"
-)
-
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!_$&@()"
-const (
-	letterIdxBits = 6                         // 6 bits to represent a letter index
-	letterIdxMask = 1<<letterIdxBits - 1      // All 1-bits, as many as letterIdxBits
-	letterIdxMax  = 150000000 / letterIdxBits // # of letter indices fitting in 63 bits
+	"github.com/DiegoSantosWS/encurtador-url/helpers"
 )
 
 //Shorten gerador de token para url
@@ -40,16 +31,18 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		//tamanho := len(urlOrignal)
-		tokenMD5 := GetMD5Hash(urlOrignal)
-		tcknExist := RandStringBytesMaskImpr(4)
+		tokenMD5 := helpers.GetMD5Hash(urlOrignal)
+		tcknExist := helpers.RandStringBytesMaskImpr(4)
 
-		//fmt.Println()
-		if CheckTokenExist(tcknExist) == false {
-			token = tcknExist
+		fmt.Println("Existe: ", tcknExist)
+		if helpers.CheckTokenExist(tcknExist) == true {
+			sid, _ := helpers.New(1, helpers.DefaultABC, 2)
+			tokenGenerate, _ := sid.Generate()
+			token = tokenGenerate
 		} else {
-			token = RandStringBytesMaskImpr(4 + 4*1 - 5)
+			token = tcknExist
 		}
-
+		fmt.Println("Passou\n", token)
 		shortenURL = r.Host + "/" + token
 		session, _ := Store.Get(r, "logado")
 		company := session.Values["ID"]
@@ -100,58 +93,4 @@ func InsertURL(url string, tokenMD5 string, token string, shortenURL string, per
 	}
 
 	return string(linas), nil
-}
-
-//GetMD5Hash gera um token de md5
-func GetMD5Hash(text string) string {
-	hasher := md5.New()
-	hasher.Write([]byte(text))
-	return hex.EncodeToString(hasher.Sum(nil))
-}
-
-//RandomString gera um token de string
-func RandomString(n int) string {
-	var letter = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!_$&@()")
-
-	b := make([]rune, n)
-	for i := range b {
-		b[i] = letter[rand.Intn(len(letter))]
-	}
-	return string(b)
-}
-
-//CheckTokenExist verifica se o token existe se existir vamos criar outro
-func CheckTokenExist(token string) bool {
-	var tokenReturned string
-	err := cone.Db.QueryRowx("SELECT token FROM url WHERE token = ? LIMIT 1", token).Scan(&tokenReturned)
-
-	switch {
-	case err != nil:
-
-		return false
-	default:
-		if tokenReturned != "" {
-			//fmt.Printf("Token is %s\n", string(tokenReturned))
-			return true
-		}
-		return false
-	}
-}
-
-//RandStringBytesMaskImpr gerando token mais aleatorios
-func RandStringBytesMaskImpr(n int) string {
-	b := make([]byte, n)
-	// A rand.Int63() generates 63 random bits, enough for letterIdxMax letters!
-	for i, cache, remain := n-1, rand.Int63(), letterIdxMax; i >= 0; {
-		if remain == 0 {
-			cache, remain = rand.Int63(), letterIdxMax
-		}
-		if idx := int(cache & letterIdxMask); idx < len(letterBytes) {
-			b[i] = letterBytes[idx]
-			i--
-		}
-		cache >>= letterIdxBits
-		remain--
-	}
-	return string(b)
 }

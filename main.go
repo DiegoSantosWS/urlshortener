@@ -34,5 +34,4 @@ func main() {
 	if token.Valid == true {
 		routers.Routers()
 	}
-	fmt.Println("Server iniciado.")
 }
