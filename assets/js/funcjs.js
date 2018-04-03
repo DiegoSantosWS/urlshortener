@@ -53,8 +53,8 @@ function showresults() {
             
             jQuery.each(data, function(i, item){
                 str = item.url;
-                if (str.length >= 100) {
-                    urlNew = str.substr(0,100) +"...";
+                if (str.length >= 60) {
+                    urlNew = str.substr(0,60) +"...";
                 } else {
                     urlNew = item.url
                 }
@@ -162,7 +162,6 @@ function viewIformation(cod) {
         }
     });
 }
-
 
 /**
  * Recebe um elemento para ser copiado.
