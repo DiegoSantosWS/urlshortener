@@ -50,5 +50,4 @@
 
 [metadata.heroku]
   root-package = "github.com/DiegoSantosWS/encurtador-url"
-  go-version = "go1.10.1"
   install = ["./..."]
