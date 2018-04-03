@@ -3,7 +3,6 @@ package models
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -34,8 +33,7 @@ func Info(w http.ResponseWriter, r *http.Request) {
 	sql += "GROUP BY l.id ORDER BY l.id DESC"
 	rows, err := cone.Db.Queryx(sql, valor)
 	if err != nil {
-		fmt.Println("Erro ao buscar informações de acesso. ERROR", sql, " - ", err.Error())
-		return
+		log.Fatal(err.Error())
 	}
 
 	defer rows.Close()
@@ -45,14 +43,12 @@ func Info(w http.ResponseWriter, r *http.Request) {
 		err := rows.StructScan(&dados)
 		if err != nil {
 			log.Fatal(err.Error())
-			return
 		}
 		retorno = append(retorno, DadosLog{dados.URL, dados.IP, dados.REFER, dados.NAVIGATOR, dados.Os, dados.DATA, dados.CONTA})
 	}
 	retornoJSON, err := json.Marshal(retorno)
 	if err != nil {
 		log.Fatal(err.Error())
-		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(retornoJSON)

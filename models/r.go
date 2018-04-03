@@ -1,6 +1,7 @@
 package models
 
 import (
+	"time"
 	"fmt"
 	"log"
 	"net"
@@ -69,8 +70,8 @@ func InsertClick(url, token, referencia, browser, sysoperacional string, w http.
 		log.Fatal(err.Error())
 	}
 
-	sql := "insert into logquery (url, token, ip, referencia, browser, sysoperacional) values (?,?,?,?,?,?)"
-	_, err = cone.Db.Exec(sql, url, token, ip, referencia, browser, sysoperacional)
+	sql := "insert into logquery (url, token, ip, data, referencia, browser, sysoperacional) values (?,?,?,?,?,?,?)"
+	_, err = cone.Db.Exec(sql, url, token, ip, time.Now(), referencia, browser, sysoperacional)
 	if err != nil {
 		log.Fatal(err.Error())
 		return false

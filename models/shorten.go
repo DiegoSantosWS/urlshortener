@@ -34,7 +34,7 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 		tokenMD5 := helpers.GetMD5Hash(urlOrignal)
 		tcknExist := helpers.RandStringBytesMaskImpr(4)
 
-		fmt.Println("Existe: ", tcknExist)
+		//fmt.Println("Existe: ", tcknExist)
 		if helpers.CheckTokenExist(tcknExist) == true {
 			sid, _ := helpers.New(1, helpers.DefaultABC, 2)
 			tokenGenerate, _ := sid.Generate()
@@ -42,7 +42,7 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 		} else {
 			token = tcknExist
 		}
-		fmt.Println("Passou\n", token)
+		//fmt.Println("Passou\n", token)
 		shortenURL = r.Host + "/" + token
 		session, _ := Store.Get(r, "logado")
 		company := session.Values["ID"]
