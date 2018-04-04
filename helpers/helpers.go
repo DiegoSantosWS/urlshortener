@@ -45,7 +45,6 @@ func CheckTokenExist(token string) bool {
 	sql := "SELECT token FROM url WHERE token = ? LIMIT 1"
 	rows, err := cone.Db.Queryx(sql, token)
 	if err != nil {
-		fmt.Println("teste")
 		log.Fatal(err.Error())
 	}
 	var tk CkTknExists

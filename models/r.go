@@ -1,13 +1,14 @@
 package models
 
 import (
-	"time"
 	"fmt"
 	"log"
 	"net"
 	"net/http"
+	"time"
 
 	cone "github.com/DiegoSantosWS/encurtador-url/connection"
+	"github.com/DiegoSantosWS/encurtador-url/helpers"
 	"github.com/gorilla/mux"
 	"github.com/ua-parser/uap-go/uaparser"
 )
@@ -21,6 +22,7 @@ type DadosUsuarios struct {
 func Redirection(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	tokenURL := vars["token"]
+	fmt.Printf("token: %v\r\n", tokenURL)
 	referencia := r.Header.Get("Referer")
 	//browser := r.Header.Get("User-Agent")
 	uagent := r.Header.Get("User-Agent")
@@ -32,12 +34,11 @@ func Redirection(w http.ResponseWriter, r *http.Request) {
 	client := parser.Parse(uagent)
 	browser := client.UserAgent.Family
 	sysoperacional := client.Os.Family
-
-	if tokenURL == "" {
-		http.Error(w, "Não foi enviado token válido. Verifique.", http.StatusBadRequest)
-		fmt.Println("Erro ao encontrar o token ")
+	valid := helpers.CheckTokenExist(tokenURL)
+	if valid == false {
 		return
 	}
+
 	sql := "SELECT url FROM url WHERE token = ? "
 	linha, err := cone.Db.Queryx(sql, tokenURL)
 	if err != nil {
@@ -50,8 +51,7 @@ func Redirection(w http.ResponseWriter, r *http.Request) {
 		err := linha.Scan(&u.URL)
 		if err != nil {
 			http.Error(w, "[ERRO] Usuário não encontrado", http.StatusInternalServerError)
-			fmt.Println("[ERRO] Usuário não encontrado", err.Error())
-			return
+			log.Fatal(err.Error())
 		}
 	}
 
@@ -68,6 +68,12 @@ func InsertClick(url, token, referencia, browser, sysoperacional string, w http.
 	ip, err := getIPAdress(w, r)
 	if err != nil {
 		log.Fatal(err.Error())
+	}
+
+	if url == "" {
+		return false
+	} else if referencia == "" {
+		return false
 	}
 
 	sql := "insert into logquery (url, token, ip, data, referencia, browser, sysoperacional) values (?,?,?,?,?,?,?)"
