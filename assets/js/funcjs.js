@@ -7,7 +7,7 @@ $(document).ready(function(){
 
         $.ajax({
             type: "POST",
-            url:"http://wsib.ws/check-cad/"+email,
+            url:"/check-cad/"+email,
             dataType: "json",
             success: function(data) {
                 if (data != 0) {
@@ -34,7 +34,7 @@ $(document).ready(function(){
  */
 function analytics(id) {
     setTimeout(function(){
-        window.location.href = "http://wsib.ws/analytics-wd/"+id;
+        window.location.href = "/analytics-wd/"+id;
     }, 100);
 }
 /** 
@@ -43,7 +43,7 @@ function analytics(id) {
 function showresults() {
     //Carrega Lista de conteudos cadastrados
     $.ajax({
-        url: "http://wsib.ws/list/",
+        url: "/list/",
         type:"json",
         crossDomain: true,
         success:function(data) {
@@ -97,7 +97,7 @@ function personalizeCode(i, token) {
                 if (newToken != '') {
                     $.ajax({
                         type: "POST",
-                        url:"http://wsib.ws/new-token/"+newToken+"/"+token,
+                        url:"/new-token/"+newToken+"/"+token,
                         dataType: "json",
                         success: function(data) {
                             console.log(data[0].Verificado)
@@ -109,7 +109,7 @@ function personalizeCode(i, token) {
                                         html: item.msg
                                     });
                                     setTimeout(function(){
-                                        redirect("http://wsib.ws/home")
+                                        redirect("/home")
                                     }, 1000);
                                 } else {
                                     swal({
@@ -143,7 +143,7 @@ function personalizeCode(i, token) {
  */
 function viewIformation(cod) {
     $.ajax({
-        url: "http://wsib.ws/info/"+cod,
+        url: "/info/"+cod,
         type:"jsonp",
         crossDomain: true,
         success:function(data) {
