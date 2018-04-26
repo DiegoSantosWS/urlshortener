@@ -7,7 +7,7 @@ $(document).ready(function(){
 
         $.ajax({
             type: "POST",
-            url:"/check-cad/"+email,
+            url:"http://wsib.ws/check-cad/"+email,
             dataType: "json",
             success: function(data) {
                 if (data != 0) {
@@ -34,7 +34,7 @@ $(document).ready(function(){
  */
 function analytics(id) {
     setTimeout(function(){
-        window.location.href = "/analytics-wd/"+id;
+        window.location.href = "http://wsib.ws/analytics-wd/"+id;
     }, 100);
 }
 /** 
@@ -43,7 +43,7 @@ function analytics(id) {
 function showresults() {
     //Carrega Lista de conteudos cadastrados
     $.ajax({
-        url: "/list/",
+        url: "http://wsib.ws/list/",
         type:"json",
         crossDomain: true,
         success:function(data) {
@@ -61,7 +61,7 @@ function showresults() {
                 html += "<tr>";
                 html += "<td><a href='"+item.url+"'>"+urlNew+"</a></td>";
                 html += "<td>";
-                html += "   <a id='"+i+"' href='https://shortenerurlds.herokuapp.com/"+item.token+"' target='_blank'>https://shortenerurlds.herokuapp.com/"+item.token+"</a>";
+                html += "   <a id='"+i+"' href='http://wsib.ws/"+item.token+"' target='_blank'>http://wsib.ws/"+item.token+"</a>";
                 html += "   <button onclick='copyToClipboard("+i+")' title='Copy short URL'><i class='fa fa-copy fa-2 text-primary' aria-hidden='true'></i></button>";
                 
                 html += "</td>";
@@ -97,7 +97,7 @@ function personalizeCode(i, token) {
                 if (newToken != '') {
                     $.ajax({
                         type: "POST",
-                        url:"/new-token/"+newToken+"/"+token,
+                        url:"http://wsib.ws/new-token/"+newToken+"/"+token,
                         dataType: "json",
                         success: function(data) {
                             console.log(data[0].Verificado)
@@ -109,7 +109,7 @@ function personalizeCode(i, token) {
                                         html: item.msg
                                     });
                                     setTimeout(function(){
-                                        redirect("/home")
+                                        redirect("http://wsib.ws/home")
                                     }, 1000);
                                 } else {
                                     swal({
@@ -143,7 +143,7 @@ function personalizeCode(i, token) {
  */
 function viewIformation(cod) {
     $.ajax({
-        url: "/info/"+cod,
+        url: "http://wsib.ws/info/"+cod,
         type:"jsonp",
         crossDomain: true,
         success:function(data) {

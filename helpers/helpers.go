@@ -107,9 +107,9 @@ func RandStringBytesMaskImpr(n int) string {
 //Runn executa o servidor
 func Runn(r *mux.Router) {
 	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3000"
-	}
+	//if port == "" {
+	//	port = "3000"
+	//}
 	//log.Fatal(http.ListenAndServe(":3000", r))
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
 }

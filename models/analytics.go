@@ -55,7 +55,7 @@ func AnalyticsResults(w http.ResponseWriter, r *http.Request) {
 
 	data := map[string]interface{}{
 		"SubTitle":       "Analytics data for",
-		"Short":          "https://shortenerurlds.herokuapp.com/" + short,
+		"Short":          "https://http://wsib.ws/" + short,
 		"Original":       original,
 		"tokenAnalytcis": id,
 		"TotalClicks":    totalClcks,
@@ -94,7 +94,7 @@ func AnalytcsChart(w http.ResponseWriter, r *http.Request) {
 
 	data := map[string]interface{}{
 		"SubTitle":       "Analytics data for",
-		"Short":          "http://wsib.ws:3000/" + id,
+		"Short":          "http://wsib.ws/" + id,
 		"Original":       original,
 		"tokenAnalytcis": id,
 		"TotalClicks":    totalClcks,
