@@ -69,12 +69,12 @@ func InsertClick(url, token, referencia, browser, sysoperacional string, w http.
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-
+	/**
 	if url == "" {
 		return false
 	} else if referencia == "" {
 		return false
-	}
+	}**/
 
 	sql := "insert into logquery (url, token, ip, data, referencia, browser, sysoperacional) values (?,?,?,?,?,?,?)"
 	_, err = cone.Db.Exec(sql, url, token, ip, time.Now(), referencia, browser, sysoperacional)
