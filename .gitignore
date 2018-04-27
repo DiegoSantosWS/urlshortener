@@ -2,4 +2,3 @@
 *.toml
 *.lock
 *.yaml
-/vendor/
