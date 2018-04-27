@@ -6,6 +6,11 @@ System to shorten URL
 $ git clone git@github.com:DiegoSantosWS/urlshortener.git
 $ cd urlshortener
 ```
+## PACKAGES
+if your descktop does not have the packages it will have download them
+```bash
+$ go get -u go get -u github.com/gorilla/...
+```
 
 ## CONFIGURATION
 
