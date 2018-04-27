@@ -1,13 +1,27 @@
-<h1>URL SHORTENER</h1>
-<br/>
+# URL SHORTENER
+System to shorten URL
+## CLONE
 
-<h2>DESCRIPTION</h2>
+```bash
+$ git clone git@github.com:DiegoSantosWS/urlshortener.git
+$ cd urlshortener
+```
 
-<p>O url shortener é apenas mais um projeto a nivel de estudo.<br/>
-Este projeto consiste em apentas encurtar a url que for inserida.</p>
+## CONFIGURATION
 
-<h2>EXAMPLE</h2>
+create a MySQL `database` and enter user data and password
+## CONNECTIONS
 
-<code>URL ORIGINAL: http://www.example.com.br</code>
-<br/>
-<code>URL SHORTENER: http://localhost:3000/r/ADqF</code>
+```bash
+$ go get https://github.com/go-sql-driver/... OR
+$ go get https://github.com/go-sql-driver/mysql
+```
+AFTER MAKE A CONNECTION WITH DATABASE
+```go
+Db, err = sqlx.Open("mysql", "user:pass@tcp(host:port)/dbname")
+```
+## URL EXAMPLE
+
+`URL ORIGINAL: http://www.example.com.br`
+
+`URL SHORTENER: http://localhost:3000/ADqF`

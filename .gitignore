@@ -1,4 +1,5 @@
 *.txt
-Gopkg.toml
-Gopkg.lock
+*.toml
+*.lock
+*.yaml
 /vendor/
